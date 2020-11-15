@@ -138,5 +138,6 @@ dmypy.json
 # profiling data
 .prof
 
-cifar/
+# project related
+cifar10/
 *tar.gz
