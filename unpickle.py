@@ -5,7 +5,6 @@
 
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
 
 classes = {
     0: "airplane",
@@ -39,18 +38,3 @@ def unserialize(data):
     N = data.shape[0]
     tensor = data.reshape(N, 3, 32, 32).transpose(0, 2, 3, 1)
     return tensor
-
-
-dataset = unpickle("cifar10/data_batch_1")
-
-data = dataset[b"data"]
-labels = dataset[b"labels"]
-images = unserialize(data)
-
-index = np.random.randint(10000)
-sample_img = images[index]
-sample_label = classes[labels[index]]
-
-plt.imshow(sample_img)
-plt.title(sample_label)
-plt.show()
