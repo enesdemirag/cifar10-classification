@@ -13,7 +13,7 @@ def create_mlp_model(learning_rate):
     model.add(tf.keras.layers.Dense(units=10, activation='softmax'))     
     
     model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=learning_rate),
-                  loss=tf.keras.losses.MeanSquaredError,
+                  loss=tf.keras.losses.MeanSquaredError(),
                   metrics=['accuracy'])
 
     return model
