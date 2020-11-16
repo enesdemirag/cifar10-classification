@@ -1,14 +1,21 @@
 from unpickle import *
+from tensorflow.keras.datasets import cifar10
+from sklearn.preprocessing import OneHotEncoder
 
-
-def prepare_pixels(data, labels):
+def prepare_pixels(data):
     """
     Convert data from integers between 0 - 255 to floats between 0 - 1
     """
-    labels = np.array(labels, dtype='float32')
     data = data.astype('float32')
     norm = data / 255.0
-    return norm, labels
+    return norm
+
+def prepare_labels(labels):
+    one_hot_encoder = OneHotEncoder(sparse=False)
+    one_hot_encoder.fit(labels)
+    labels = one_hot_encoder.transform(labels)
+    return labels
+
 
 def get_train_data(batch_no):
     train_set = unpickle('cifar10/data_batch_' + str(batch_no))
@@ -16,7 +23,8 @@ def get_train_data(batch_no):
     train_images = unserialize(train_data)
     labels = train_set[b'labels']
 
-    images, labels = prepare_pixels(train_images, labels)
+    images = prepare_pixels(train_images)
+    labels = prepare_labels(labels)
     return images, labels
 
 def get_test_data():
@@ -25,5 +33,10 @@ def get_test_data():
     test_images = unserialize(test_data)
     labels = test_set[b'labels']
     
-    images, labels = prepare_pixels(test_images, labels)
+    images = prepare_pixels(test_images)
+    labels = prepare_labels(labels)
     return images, labels
+
+def get_data_from_tensorflow():
+    (images_train, labels_train), (images_test, labels_test) = cifar10.load_data()
+    return images_train, labels_train, images_test, labels_test
