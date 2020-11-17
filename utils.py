@@ -2,9 +2,12 @@
 # Each of these files is a Python "pickled" object produced with cPickle.
 # Each file has 10000 serialized images with labels.
 # b'batch_label', b'labels', b'data', b'filenames'.
+# In this script there are some useful functions.
 
 import pickle
 import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
 
 classes = {
     0: "airplane",
@@ -38,3 +41,22 @@ def unserialize(data):
     N = data.shape[0]
     tensor = data.reshape(N, 3, 32, 32).transpose(0, 2, 3, 1)
     return tensor
+
+
+def plot_training(model):
+    plt.figure()
+    plt.xlabel('Epoch')
+    plt.ylabel('Value')
+    x = model.hist['accuracy']
+    plt.plot(model.epochs[1:], x[1:], label='accuracy')
+    plt.legend()
+    plt.show()
+
+
+def save_model(model, path):
+    model.save(path)
+
+
+def load_model(path):
+    model = tf.keras.models.load_model(path)
+    return model
