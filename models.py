@@ -1,9 +1,9 @@
 import pandas as pd
 import tensorflow as tf
-from tf.keras.layers import Flatten, Dense, Conv2D, Dropout, MaxPooling2D
-from tf.keras.models import Sequential
-from tf.keras.optimizers import RMSprop, Adam
-from tf.keras.losses import MeanSquaredError, SparseCategoricalCrossentropy
+from tensorflow.keras.layers import Flatten, Dense, Conv2D, Dropout, MaxPooling2D
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import RMSprop, Adam
+from tensorflow.keras.losses import MeanSquaredError, SparseCategoricalCrossentropy
 
 
 class MLP(object):
