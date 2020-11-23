@@ -54,7 +54,7 @@ def plot_training(model):
 
 
 def save_model(model, path):
-    model.save(path)
+    model.model.save(path)
 
 
 def load_model(path):
