@@ -9,16 +9,18 @@ mlp = MLP(0.01)
 cnn = CNN(0.01)
 
 # Training MLP Model
-mlp.train(images_train, labels_train, epochs=10)
+mlp.train(images_train, labels_train, epochs=1)
 plot_training(mlp)
+save_model(mlp, 'mlp')
 
 # Testing MLP Model
 accuracy_mlp = mlp.test(images_test, labels_test)
 print(accuracy_mlp)
 
 # Training CNN Model
-cnn.train(images_train, labels_train, epochs=10)
+cnn.train(images_train, labels_train, epochs=1)
 plot_training(cnn)
+save_model(cnn, 'cnn')
 
 # Testing CNN Model
 accuracy_cnn = cnn.test(images_test, labels_test)
