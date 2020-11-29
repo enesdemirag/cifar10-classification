@@ -38,17 +38,17 @@ def unserialize(data):
     data: (N, 3072) array of serialized pixel data
     return: (N, 32, 32, 3) tensor as
     """
-    N = data.shape[0]
+    N      = data.shape[0]
     tensor = data.reshape(N, 3, 32, 32).transpose(0, 2, 3, 1)
     return tensor
 
 
 def plot_training(model):
+    x = model.hist["accuracy"]
     plt.figure()
-    plt.xlabel('Epoch')
-    plt.ylabel('Value')
-    x = model.hist['accuracy']
-    plt.plot(model.epochs[1:], x[1:], label='accuracy')
+    plt.xlabel("Epoch")
+    plt.ylabel("Value")
+    plt.plot(model.epochs[1:], x[1:], label="accuracy")
     plt.legend()
     plt.show()
 

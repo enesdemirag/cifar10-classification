@@ -1,4 +1,5 @@
-from utils import *
+import numpy as np
+from utils import unpickle, unserialize
 from tensorflow.keras.datasets import cifar10
 
 

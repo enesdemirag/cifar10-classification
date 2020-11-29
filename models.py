@@ -13,20 +13,20 @@ class MLP(object):
         self.model.add(Flatten(input_shape=(32, 32, 3)))
         self.model.add(Dense(units=3072, activation="relu"))
         self.model.add(Dense(units=1024, activation="relu"))
-        self.model.add(Dense(units=128, activation="relu"))
-        self.model.add(Dense(units=64, activation="relu"))
-        self.model.add(Dense(units=10, activation="softmax"))
+        self.model.add(Dense(units=128,  activation="relu"))
+        self.model.add(Dense(units=64,   activation="relu"))
+        self.model.add(Dense(units=10,   activation="softmax"))
 
         self.model.compile(
-            optimizer=RMSprop(learning_rate),
-            loss=MeanSquaredError(),
-            metrics=["accuracy"]
+            optimizer = RMSprop(learning_rate),
+            loss      = MeanSquaredError(),
+            metrics   = ["accuracy"]
         )
 
     def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
-        history = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+        history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
         self.epochs = history.epoch
-        self.hist = pd.DataFrame(history.history)
+        self.hist   = pd.DataFrame(history.history)
         return self.epochs, self.hist
 
     def test(self, features, labels):
@@ -65,9 +65,9 @@ class CNN(object):
         )
 
     def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
-        history = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+        history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
         self.epochs = history.epoch
-        self.hist = pd.DataFrame(history.history)
+        self.hist   = pd.DataFrame(history.history)
         return self.epochs, self.hist
 
     def test(self, features, labels):
