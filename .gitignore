@@ -141,3 +141,5 @@ dmypy.json
 # project related
 cifar10/
 *tar.gz
+*.pb
+variables.*
