@@ -11,10 +11,12 @@ class MLP(object):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=(32, 32, 3)))
-        self.model.add(Dense(units=3072, activation="relu"))
         self.model.add(Dense(units=1024, activation="relu"))
-        self.model.add(Dense(units=128,  activation="relu"))
+        self.model.add(Dropout(0.2))
+        self.model.add(Dense(units=512,  activation="relu"))
+        self.model.add(Dropout(0.2))
         self.model.add(Dense(units=64,   activation="relu"))
+        self.model.add(Dropout(0.2))
         self.model.add(Dense(units=10,   activation="softmax"))
 
         self.model.compile(
@@ -33,9 +35,11 @@ class MLP(object):
         _, self.accuracy = self.model.evaluate(features, labels, verbose=0)
         return self.accuracy
 
-    def predict(self, features):
-        prediction = self.model(features)
-        return prediction
+    def predict(self, img):
+        return self.model.predict(img)
+    
+    def save(self, path="../saved_models/"):
+        self.model.save(path)
 
 
 class CNN(object):
@@ -74,7 +78,8 @@ class CNN(object):
         _, self.accuracy = self.model.evaluate(features, labels, verbose=2)
         return self.accuracy
 
-    def predict(self, features):
-        prediction = self.model(features)
-        return prediction
+    def predict(self, img):
+        return self.model.predict(img)
 
+    def save(self, path="../saved_models/"):
+        self.model.save(path)

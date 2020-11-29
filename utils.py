@@ -53,10 +53,6 @@ def plot_training(model):
     plt.show()
 
 
-def save_model(model, path):
-    model.model.save(path)
-
-
 def load_model(path):
     model = tf.keras.models.load_model(path)
     return model
