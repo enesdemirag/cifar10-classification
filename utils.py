@@ -8,6 +8,7 @@ import pickle
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from rbf import RBFLayer
 
 classes = {
     0: "airplane",
@@ -56,6 +57,9 @@ def plot_training(model):
     plt.show()
 
 
-def load_model(path):
-    model = tf.keras.models.load_model(path)
+def load_model(path, is_rbf=False):
+    if is_rbf:
+        model = tf.keras.models.load_model(path, custom_objects={'RBFLayer': RBFLayer})
+    else:
+        model = tf.keras.models.load_model(path)
     return model

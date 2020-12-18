@@ -5,9 +5,11 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop, Adam
 from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
 from tensorflow.keras.utils import plot_model
+from rbf import InitCentersKMeans, InitCentersRandom, RBFLayer
+
 
 class MLP(object):
-    def __init__(self, lr):
+    def __init__(self):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=(32, 32, 3)))
@@ -38,14 +40,54 @@ class MLP(object):
     
     def save(self, path="./saved_models/"):
         timestamp = dt.timestamp(dt.now())
-        filename = path + str(timestamp)
+        filename = path + "MLP_" + str(timestamp)
+        
+        plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
+        self.model.save(filename + ".h5")
+
+
+class RBF(object):
+    def __init__(self, features):
+        self.model = Sequential()
+
+        self.model.add(Flatten(input_shape=(32, 32, 3)))
+        self.model.add(RBFLayer(1024, initializer=InitCentersKMeans(features), betas=2.0))
+        self.model.add(Dropout(0.2))
+        self.model.add(RBFLayer(512,  initializer=InitCentersRandom(), betas=2.0))
+        self.model.add(Dropout(0.2))
+        self.model.add(RBFLayer(128,  initializer=InitCentersRandom(), betas=2.0))
+        self.model.add(Dropout(0.2))
+        self.model.add(Dense(units=10, use_bias=False, activation="softmax"))
+
+        self.model.compile(
+            optimizer = "adam",
+            loss      = "categorical_crossentropy",
+            metrics   = ["accuracy"]
+        )
+
+    def train(self, features, labels, batch_size=32, epochs=50, shuffle=True):
+        history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+        self.epochs = history.epoch
+        self.hist   = pd.DataFrame(history.history)
+        return self.epochs, self.hist
+
+    def test(self, features, labels):
+        _, self.accuracy = self.model.evaluate(features, labels, verbose=0)
+        return self.accuracy
+
+    def predict(self, img):
+        return self.model.predict(img)
+    
+    def save(self, path="./saved_models/"):
+        timestamp = dt.timestamp(dt.now())
+        filename = path + "RBF_" + str(timestamp)
         
         plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
         self.model.save(filename + ".h5")
 
 
 class CNN(object):
-    def __init__(self, learning_rate):
+    def __init__(self):
         self.model = Sequential()
 
         self.model.add(Conv2D(filters=8, kernel_size=3, activation="relu", input_shape=(32, 32, 3)))
@@ -85,7 +127,7 @@ class CNN(object):
 
     def save(self, path="./saved_models/"):
         timestamp = dt.timestamp(dt.now())
-        filename = path + str(timestamp)
+        filename = path + "CNN_" + str(timestamp)
         
         plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
         self.model.save(filename + ".h5")
