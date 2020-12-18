@@ -5,7 +5,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 from preprocessing import get_data_from_tensorflow, get_train_data, get_test_data
 from utils import plot_training, classes
-from models import MLP, CNN
+from models import MLP, RBF, CNN
 import matplotlib.pyplot as plt 
 import numpy as np
 import random
@@ -14,10 +14,10 @@ import random
 images_train, labels_train, images_test, labels_test = get_data_from_tensorflow()
 
 # Creating models
-mlp = MLP(lr=0.03)
+mlp = MLP()
 
 # Training MLP Model
-mlp.train(images_train, labels_train, epochs=100)
+mlp.train(images_train, labels_train, epochs=1)
 
 # Prediction MLP Model
 _, ax = plt.subplots(1, 5)

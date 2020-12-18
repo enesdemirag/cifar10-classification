@@ -6,8 +6,9 @@ from tensorflow.keras.optimizers import RMSprop, Adam
 from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
 from tensorflow.keras.utils import plot_model
 
+
 class MLP(object):
-    def __init__(self, lr):
+    def __init__(self):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=(32, 32, 3)))
@@ -38,14 +39,14 @@ class MLP(object):
     
     def save(self, path="./saved_models/"):
         timestamp = dt.timestamp(dt.now())
-        filename = path + str(timestamp)
+        filename = path + "MLP_" + str(timestamp)
         
         plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
         self.model.save(filename + ".h5")
 
 
 class CNN(object):
-    def __init__(self, learning_rate):
+    def __init__(self):
         self.model = Sequential()
 
         self.model.add(Conv2D(filters=8, kernel_size=3, activation="relu", input_shape=(32, 32, 3)))
@@ -85,7 +86,7 @@ class CNN(object):
 
     def save(self, path="./saved_models/"):
         timestamp = dt.timestamp(dt.now())
-        filename = path + str(timestamp)
+        filename = path + "CNN_" + str(timestamp)
         
         plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
         self.model.save(filename + ".h5")

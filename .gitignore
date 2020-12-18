@@ -143,3 +143,4 @@ cifar10/
 *tar.gz
 *.pb
 variables.*
+saved_models/*
