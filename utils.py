@@ -44,11 +44,14 @@ def unserialize(data):
 
 
 def plot_training(model):
-    x = model.hist["accuracy"]
+    x1 = model.hist["accuracy"]
+    x2 = model.hist["loss"]
+
     plt.figure()
     plt.xlabel("Epoch")
     plt.ylabel("Value")
-    plt.plot(model.epochs[1:], x[1:], label="accuracy")
+    plt.plot(model.epochs[1:], x1[1:], label="accuracy")
+    plt.plot(model.epochs[1:], x2[1:], label="loss")
     plt.legend()
     plt.show()
 

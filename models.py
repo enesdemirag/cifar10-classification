@@ -1,31 +1,29 @@
 import pandas as pd
-import tensorflow as tf
+from datetime import datetime as dt
 from tensorflow.keras.layers import Flatten, Dense, Conv2D, Dropout, MaxPooling2D
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop, Adam
-from tensorflow.keras.losses import MeanSquaredError, SparseCategoricalCrossentropy
-
+from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
+from tensorflow.keras.utils import plot_model
 
 class MLP(object):
-    def __init__(self, learning_rate):
+    def __init__(self, lr):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=(32, 32, 3)))
         self.model.add(Dense(units=1024, activation="relu"))
         self.model.add(Dropout(0.2))
-        self.model.add(Dense(units=512,  activation="relu"))
+        self.model.add(Dense(units=512, activation="relu"))
         self.model.add(Dropout(0.2))
-        self.model.add(Dense(units=64,   activation="relu"))
-        self.model.add(Dropout(0.2))
-        self.model.add(Dense(units=10,   activation="softmax"))
+        self.model.add(Dense(units=10,  activation="softmax"))
 
         self.model.compile(
-            optimizer = RMSprop(learning_rate),
-            loss      = MeanSquaredError(),
+            optimizer = "adam",
+            loss      = "categorical_crossentropy",
             metrics   = ["accuracy"]
         )
 
-    def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
+    def train(self, features, labels, batch_size=32, epochs=50, shuffle=True):
         history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
         self.epochs = history.epoch
         self.hist   = pd.DataFrame(history.history)
@@ -38,8 +36,12 @@ class MLP(object):
     def predict(self, img):
         return self.model.predict(img)
     
-    def save(self, path="../saved_models/"):
-        self.model.save(path)
+    def save(self, path="./saved_models/"):
+        timestamp = dt.timestamp(dt.now())
+        filename = path + str(timestamp)
+        
+        plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
+        self.model.save(filename + ".h5")
 
 
 class CNN(object):
@@ -63,9 +65,9 @@ class CNN(object):
         self.model.add(Dense(units=10, activation="softmax"))
 
         self.model.compile(
-            optimizer=Adam(learning_rate),
-            loss=SparseCategoricalCrossentropy(),
-            metrics=["accuracy"]
+            optimizer = "adam",
+            loss      = "categorical_crossentropy",
+            metrics   = ["accuracy"]
         )
 
     def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
@@ -81,5 +83,9 @@ class CNN(object):
     def predict(self, img):
         return self.model.predict(img)
 
-    def save(self, path="../saved_models/"):
-        self.model.save(path)
+    def save(self, path="./saved_models/"):
+        timestamp = dt.timestamp(dt.now())
+        filename = path + str(timestamp)
+        
+        plot_model(self.model, to_file=filename + ".png", show_shapes=True, show_layer_names=True)
+        self.model.save(filename + ".h5")

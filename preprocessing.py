@@ -1,6 +1,7 @@
 import numpy as np
 from utils import unpickle, unserialize
 from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.utils import to_categorical
 
 
 def prepare_pixels(data):
@@ -48,4 +49,15 @@ def get_test_data():
 
 def get_data_from_tensorflow():
     (images_train, labels_train), (images_test, labels_test) = cifar10.load_data()
+    
+    # normalize the pixel values
+    images_train  = images_train.astype('float32')
+    images_test   = images_test.astype('float32')
+    images_train /= 255
+    images_test  /= 255
+
+    # one hot encoding
+    labels_train = to_categorical(labels_train, 10)
+    labels_test  = to_categorical(labels_test, 10)
+    
     return images_train, labels_train, images_test, labels_test
