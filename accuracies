@@ -1,0 +1,33 @@
+activation functions (512, adam, categorical_crossentropy, 0.001)
+relu = 0.45500001311302185
+sigmoid = 0.4271000027656555
+tanh = 0.35690000653266907
+
+dropout rates (512, sigmoid, adam, categprical_crossentropy, 0.001)
+0.25 = 0.4431999921798706
+0.50 = 0.42739999294281006
+0.75 = 0.35989999771118164
+
+optimizers (512, sigmoid, 0.20, categorical_crossentropym 0.001)
+sgd = 0.4366999864578247
+rmsprop = 0.44179999828338623
+adam = 0.43970000743865967
+
+loss functions (512, sigmoid, 0.20, rmsprop, 0.001)
+mse = 0.4278999865055084
+categorical cross-entropy = 0.4772999882698059
+kullback-leiber divergence = 0.39800000190734863
+categorical hinge = 0.32010000944137573
+
+number of neurons (sigmoid, 0.20, rmsprop, categorical_crossentropy, 0.001)
+128 = 0.4401000142097473
+256 = 0.4571000039577484
+512 = 0.43220001459121704
+1024 = 0.43070000410079956
+
+
+learning rates (256, relu, 0.20, rmsprop, categorical_crossentropy)
+0.0001 = 0.504800021648407
+0.0005 = 0.44040000438690186
+0.0010 = 0.40779998898506165
+
