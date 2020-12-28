@@ -5,7 +5,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 from preprocessing import get_data_from_tensorflow, get_train_data, get_test_data
 from utils import plot_training, classes
-from models import MLP, RBF, CNN
+from models import MLP, CNN
 import matplotlib.pyplot as plt 
 import numpy as np
 import random
@@ -17,22 +17,40 @@ images_train, labels_train, images_test, labels_test = get_data_from_tensorflow(
 mlp = MLP()
 
 # Training MLP Model
-mlp.train(images_train, labels_train, epochs=1)
-
-# Prediction MLP Model
-_, ax = plt.subplots(1, 5)
-for i in range(5):
-    img = images_test[random.randint(0,1000)].reshape((1, 32, 32, 3))
-    y = mlp.predict(img)
-    y = np.where(y[0])[0][0]
-    y = classes[y]
-    ax[i].imshow(img[0])
-    ax[i].set_title(y)
-plt.show()
+mlp.train(images_train, labels_train)
 
 # Testing MLP Model
-accuracy_mlp = mlp.test(images_test, labels_test)
-print(accuracy_mlp)
+precision, recall, accuracy, auc = mlp.test(images_test, labels_test)
 
-plot_training(mlp)
+_ , ax = plt.subplots(5, 1, figsize=(15, 5))
+
+ax[0].set_xlabel("Epoch")
+ax[0].set_ylabel("Value")
+ax[0].set_title("Loss")
+
+ax[1].set_xlabel("Epoch")
+ax[1].set_ylabel("Value")
+ax[1].set_title("Presicion")
+
+ax[2].set_xlabel("Epoch")
+ax[2].set_ylabel("Value")
+ax[2].set_title("Recall")
+
+ax[3].set_xlabel("Epoch")
+ax[3].set_ylabel("Value")
+ax[3].set_title("Accuracy")
+
+ax[4].set_xlabel("Epoch")
+ax[4].set_ylabel("Value")
+ax[4].set_title("AUC")
+
+ax[0].plot(mlp.epochs[1:], mlp.hist["loss"][1:], color="r")
+ax[1].plot(mlp.epochs[1:], mlp.hist["precision"][1:], color="g")
+ax[2].plot(mlp.epochs[1:], mlp.hist["recall"][1:], color="b")
+ax[3].plot(mlp.epochs[1:], mlp.hist["categorical_accuracy"][1:], color="k")
+ax[4].plot(mlp.epochs[1:], mlp.hist["auc"][1:], color="y")
+
+plt.savefig("finalMLPmodel.png")
+plt.show()
+
 mlp.save()

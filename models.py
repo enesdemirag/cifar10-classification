@@ -5,23 +5,23 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop, Adam
 from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
 from tensorflow.keras.utils import plot_model
-
+from tensorflow.keras.metrics import Precision, Recall, CategoricalAccuracy, AUC
 
 class MLP(object):
     def __init__(self):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=(32, 32, 3)))
-        self.model.add(Dense(units=1024, activation="relu"))
-        self.model.add(Dropout(0.2))
-        self.model.add(Dense(units=512, activation="relu"))
-        self.model.add(Dropout(0.2))
+        self.model.add(Dense(units=256, activation="relu"))
+        self.model.add(Dropout(0.10))
+        self.model.add(Dense(units=128, activation="relu"))
+        self.model.add(Dropout(0.10))
         self.model.add(Dense(units=10,  activation="softmax"))
 
         self.model.compile(
-            optimizer = "adam",
-            loss      = "categorical_crossentropy",
-            metrics   = ["accuracy"]
+            optimizer = RMSprop(learning_rate=0.0001),
+            loss      = CategoricalCrossentropy(),
+            metrics   = [Precision(), Recall(), CategoricalAccuracy(), AUC()]
         )
 
     def train(self, features, labels, batch_size=32, epochs=50, shuffle=True):
@@ -31,8 +31,8 @@ class MLP(object):
         return self.epochs, self.hist
 
     def test(self, features, labels):
-        _, self.accuracy = self.model.evaluate(features, labels, verbose=0)
-        return self.accuracy
+        self.loss, self.presicion, self.recall, self.accuracy, self.auc = self.model.evaluate(features, labels, verbose=0)
+        return self.loss, self.presicion, self.recall, self.accuracy, self.auc
 
     def predict(self, img):
         return self.model.predict(img)

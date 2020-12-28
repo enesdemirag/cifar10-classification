@@ -47,12 +47,17 @@ def plot_training(model):
     x1 = model.hist["accuracy"]
     x2 = model.hist["loss"]
 
-    plt.figure()
-    plt.xlabel("Epoch")
-    plt.ylabel("Value")
-    plt.plot(model.epochs[1:], x1[1:], label="accuracy")
-    plt.plot(model.epochs[1:], x2[1:], label="loss")
-    plt.legend()
+    _ , ax = plt.subplots(1, 2)
+    ax[0].set_xlabel("Epoch")
+    ax[1].set_xlabel("Epoch")
+    ax[0].set_ylabel("Value")
+    ax[1].set_ylabel("Value")
+    ax[0].set_title("Accuracy")
+    ax[1].set_title("Loss")
+    ax[0].plot(model.epochs[1:], x1[1:], label="accuracy")
+    ax[1].plot(model.epochs[1:], x2[1:], label="loss")
+    ax[0].legend()
+    ax[1].legend()
     plt.show()
 
 
