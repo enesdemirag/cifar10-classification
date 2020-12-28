@@ -3,9 +3,8 @@ import warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
-from preprocessing import get_data_from_tensorflow, get_train_data, get_test_data
-from utils import plot_training, classes
-from models import MLP, CNN
+from preprocessing import get_data_from_tensorflow
+from models import MLP
 import matplotlib.pyplot as plt 
 import numpy as np
 import random
@@ -20,7 +19,7 @@ mlp = MLP()
 mlp.train(images_train, labels_train)
 
 # Testing MLP Model
-precision, recall, accuracy, auc = mlp.test(images_test, labels_test)
+loss, precision, recall, accuracy, auc = mlp.test(images_test, labels_test)
 
 _ , ax = plt.subplots(5, 1, figsize=(15, 5))
 
@@ -50,7 +49,7 @@ ax[2].plot(mlp.epochs[1:], mlp.hist["recall"][1:], color="b")
 ax[3].plot(mlp.epochs[1:], mlp.hist["categorical_accuracy"][1:], color="k")
 ax[4].plot(mlp.epochs[1:], mlp.hist["auc"][1:], color="y")
 
-plt.savefig("finalMLPmodel.png")
+plt.savefig("finalmodel.png")
 plt.show()
 
 mlp.save()
