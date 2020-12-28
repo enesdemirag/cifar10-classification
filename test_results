@@ -25,9 +25,22 @@ number of neurons (sigmoid, 0.20, rmsprop, categorical_crossentropy, 0.001)
 512 = 0.43220001459121704
 1024 = 0.43070000410079956
 
-
 learning rates (256, relu, 0.20, rmsprop, categorical_crossentropy)
 0.0001 = 0.504800021648407
 0.0005 = 0.44040000438690186
 0.0010 = 0.40779998898506165
+
+number of hidden layers (256, relu, 0.10, rmsprop, categorical_crossentropy, 0.0001)
+1 hidden layer = 0.5098000168800354
+2 hidden layer = 0.5300999879837036
+3 hidden layer = 0.5145999789237976
+
+256, relu, 0.10, rmsprop, categorical_crossentropy, 0.0001, 50epochs, 1 hidden layer
+0.5299000144004822
+
+256, relu, 0.10, rmsprop, categorical_crossentropy, 0.0001, 100epochs, 2 hidden layer
+precision = 0.6297053098678589
+recall = 0.43160000443458557
+accuracy = 0.5260000228881836
+auc = 0.8882204294204712
 
