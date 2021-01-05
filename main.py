@@ -46,7 +46,7 @@ ax[4].set_title("AUC")
 ax[0].plot(mlp.epochs[1:], mlp.hist["loss"][1:], color="r")
 ax[1].plot(mlp.epochs[1:], mlp.hist["precision"][1:], color="g")
 ax[2].plot(mlp.epochs[1:], mlp.hist["recall"][1:], color="b")
-ax[3].plot(mlp.epochs[1:], mlp.hist["categorical_accuracy"][1:], color="k")
+ax[3].plot(mlp.epochs[1:], mlp.hist["accuracy"][1:], color="k")
 ax[4].plot(mlp.epochs[1:], mlp.hist["auc"][1:], color="y")
 
 plt.savefig("finalmodel.png")

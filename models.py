@@ -21,7 +21,7 @@ class MLP(object):
         self.model.compile(
             optimizer = RMSprop(learning_rate=0.0001),
             loss      = CategoricalCrossentropy(),
-            metrics   = [Precision(), Recall(), CategoricalAccuracy(), AUC()]
+            metrics   = [Precision(name="precision"), Recall(name="recall"), CategoricalAccuracy(name="accuracy"), AUC(name="auc")]
         )
 
     def train(self, features, labels, batch_size=32, epochs=50, shuffle=True):
