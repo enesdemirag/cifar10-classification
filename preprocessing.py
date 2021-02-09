@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from utils import unpickle, unserialize
 from tensorflow.keras.datasets import cifar10
@@ -11,6 +12,17 @@ def prepare_pixels(data):
     data = data.astype("float32")
     norm = data / 255.0
     return norm
+
+
+def image_to_feature_vector(image, size=(32, 32)):
+	return cv2.resize(image, size).flatten()
+
+
+def extract_color_histogram(image, bins=(8, 8, 8)):
+	hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+	hist = cv2.calcHist([hsv], [0, 1, 2], None, bins, [0, 180, 0, 256, 0, 256])
+	cv2.normalize(hist, hist)
+	return hist.flatten()
 
 
 def prepare_labels(labels):
